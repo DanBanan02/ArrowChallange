@@ -1,0 +1,169 @@
+
+body
+{
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #f2f2f2;
+}
+
+.target-area
+{
+    position: relative;
+
+    width: 300px;
+    margin: 0 auto;
+}
+
+#target img
+{
+    width: 300px;
+
+    transition: transform 0.3s ease;
+}
+
+#target img:hover
+{
+    transform: scale(1.1);
+}
+
+button
+{
+    padding: 12px 20px;
+
+    background-color: darkgreen;
+    color: white;
+
+    border: none;
+    border-radius: 8px;
+
+    transition: 0.3s ease;
+
+    animation: buttonGlow 2s infinite;
+}
+
+button:hover
+{
+    background-color: green;
+
+    transform: scale(1.1);
+}
+
+.arrow 
+{
+    position: absolute;
+
+    top: 50%;
+    left: -152px;
+
+    width: 120px;
+    height: 6px;
+
+    background-color: brown;
+
+    transition: transform 0.4s ease;
+
+    transform: translateY(-50%);
+}
+
+.arrow-head 
+{
+    position: absolute;
+
+    right: -14px;
+    top: -7px;
+
+    width: 0;
+    height: 0;
+
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-left: 18px solid #000;
+}
+
+.arrow.aiming 
+{
+    transform: translate(-40px, -50%);
+}
+
+.arrow.shooting 
+{
+    transition: none;
+    animation: shootArrow 0.5s ease-out forwards;
+}
+
+@keyframes shootArrow 
+{
+    0% {
+        transform: translate(-40px, -50%);
+    }
+
+    100% {
+        transform: translate(var(--shoot-x), -50%);
+    }
+}
+
+
+@keyframe buttonGlow
+{
+    0%
+    {
+        box-shadow: 0 0 0px green;
+    }
+
+    50%
+    {
+        box-shadow: 0 0 15px green;
+    }
+
+    100%
+    {
+        box-shadow: 0 0 0px green;
+    }
+}
+
+
+.arrow {
+    position: absolute;
+
+    top: 50%;
+    left: -500px;
+
+    width: 120px;
+    height: 6px;
+
+    background-color: brown;
+
+    transition: transform 0.4s ease;
+
+    transform: translateY(-50%);
+}
+
+.power-meter 
+{
+    width: 300px;
+    height: 20px;
+
+    margin: 20px auto;
+
+    border: 2px solid black;
+    border-radius: 10px;
+
+    overflow: hidden;
+}
+
+.power-fill 
+{
+    width: 0%;
+    height: 100%;
+
+    background-color: green;
+
+    transition: width 0.05s linear;
+}
+
+
+
+
+
+
+

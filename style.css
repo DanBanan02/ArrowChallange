@@ -1,9 +1,14 @@
+:root
+{
+    background-color: beige;
+}
+
 
 body
 {
     font-family: Arial, sans-serif;
     text-align: center;
-    background-color: #f2f2f2;
+    background-color: beige;
 }
 
 .target-area
@@ -19,11 +24,15 @@ body
     width: 300px;
 
     transition: transform 0.3s ease;
+
+    z-index: -1;
 }
 
 #target img:hover
 {
     transform: scale(1.1);
+
+    z-index: -1;
 }
 
 button
@@ -63,6 +72,8 @@ button:hover
     transition: transform 0.4s ease;
 
     transform: translateY(-50%);
+
+    z-index: 2;
 }
 
 .arrow-head 
@@ -78,6 +89,8 @@ button:hover
     border-top: 10px solid transparent;
     border-bottom: 10px solid transparent;
     border-left: 18px solid #000;
+
+    z-index: 2;
 }
 
 .arrow.aiming 
@@ -103,29 +116,10 @@ button:hover
 }
 
 
-@keyframe buttonGlow
-{
-    0%
-    {
-        box-shadow: 0 0 0px green;
-    }
-
-    50%
-    {
-        box-shadow: 0 0 15px green;
-    }
-
-    100%
-    {
-        box-shadow: 0 0 0px green;
-    }
-}
-
-
 .arrow {
     position: absolute;
 
-    top: 50%;
+    top: 49%;
     left: -500px;
 
     width: 120px;
@@ -136,6 +130,8 @@ button:hover
     transition: transform 0.4s ease;
 
     transform: translateY(-50%);
+
+    z-index: 2;
 }
 
 .power-meter 
@@ -149,16 +145,43 @@ button:hover
     border-radius: 10px;
 
     overflow: hidden;
-}
 
+    background: linear-gradient(
+        to right,
+        red 0%,
+        red 15%,
+
+        orange 20%,
+        orange 30%,
+
+        yellow 35%,
+        yellow 45%,
+
+  
+        lightgreen 48%,
+        lightgreen 52%,
+
+
+        yellow 55%,
+        yellow 65%,
+
+        orange 70%,
+        orange 80%,
+
+        red 85%,
+        red 100%
+    );
+}
 .power-fill 
 {
     width: 0%;
     height: 100%;
 
-    background-color: green;
+    background-color: transparent;
 
-    transition: width 0.05s linear;
+    border-right: 4px solid black;
+
+    box-sizing: border-box;
 }
 
 

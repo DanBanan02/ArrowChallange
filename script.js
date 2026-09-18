@@ -1,21 +1,40 @@
 const shootButton = document.getElementById("shoot-button");
 const arrow = document.querySelector(".arrow");
 const powerFill = document.querySelector(".power-fill");
+const scoreText = document.getElementById("score");
 
-let powerAnimation;
-
+let score = 0;
 let aimStartTime = 0;
 let currentPower = 0;
 let isCharging = false;
+let powerAnimation;
 
-const maxHoldTime = 2000;
 
-const minX = 50;
-const maxX = 800;
+/* Shooting settings */
 
-function updatePowerMeter() {
+const maxHoldTime = 600;
 
-    if (!isCharging) {
+/* Main */
+const minX = 0;
+const midX = 516;
+const maxX = 1032;
+
+/* Test */
+/* const minX = 516;
+const midX = 516;
+const maxX = 516; */
+
+const midPowerMin = 0.495;
+const midPowerMax = 0.505;
+
+
+/* Power meter */
+
+function updatePowerMeter() 
+{
+
+    if (!isCharging) 
+    {
         return;
     }
 
@@ -34,7 +53,11 @@ function updatePowerMeter() {
     powerAnimation = requestAnimationFrame(updatePowerMeter);
 }
 
-shootButton.addEventListener("pointerdown", function () {
+
+/* Hold button */
+
+shootButton.addEventListener("pointerdown", function () 
+{
 
     aimStartTime = performance.now();
 
@@ -53,7 +76,10 @@ shootButton.addEventListener("pointerdown", function () {
 });
 
 
-shootButton.addEventListener("pointerup", function () {
+/* Release button */
+
+shootButton.addEventListener("pointerup", function () 
+{
 
     isCharging = false;
 
@@ -61,14 +87,72 @@ shootButton.addEventListener("pointerup", function () {
 
     const power = currentPower;
 
-    const shootX = minX + (maxX - minX) * power;
+    let points = 0;
 
-    arrow.style.setProperty("--shoot-x", shootX + "px");
+    if (power >= midPowerMin && power <= midPowerMax)
+    {
+        points = 10;
+    }
+
+    else if (power >= 0.45 && power <= 0.55)
+    {
+        points = 5;
+    }
+
+    else if (power >= 0.35 && power <= 0.65)
+    {
+        points = 2;
+    }
+
+
+    let shootX;
+
+    /* **************************
+       CALCULATE WHERE ARROW LANDS
+    ************************** */
+
+    if (power >= midPowerMin && power <= midPowerMax) 
+    {
+
+        shootX = midX;
+
+    }
+
+    else if (power < midPowerMin) 
+    {
+
+        shootX =
+            minX +
+            (midX - minX) *
+            (power / midPowerMin);
+
+    }
+
+    else 
+    {
+
+        shootX =
+            midX +
+            (maxX - midX) *
+            ((power - midPowerMax) /
+            (1 - midPowerMax));
+
+    }
+
+    /* ************************** */
+
+
+    arrow.style.setProperty(
+        "--shoot-x",
+        shootX + "px"
+    );
+
 
     shootButton.textContent = "Hold to Aim";
 
     arrow.classList.remove("aiming");
     arrow.classList.add("shooting");
+
 
     console.log("Power:", power);
     console.log("Landing X:", shootX);

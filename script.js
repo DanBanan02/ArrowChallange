@@ -1,13 +1,62 @@
-const shootButton = document.getElementById("shoot-button");
+const shootButton =
+    document.getElementById("shoot-button");
 
-const arrow = document.querySelector(".arrow");
+const arrow =
+    document.querySelector(".arrow");
 
-const powerFill = document.querySelector(".power-fill");
+const powerFill =
+    document.querySelector(".power-fill");
 
-const scoreText = document.getElementById("score");
+const scoreText =
+    document.getElementById("score");
 
+const highscoreText =
+    document.getElementById("highscore");
+
+const hit1Text =
+    document.getElementById("hit1");
+
+const hit2Text =
+    document.getElementById("hit2");
+
+const hit3Text =
+    document.getElementById("hit3");
+
+
+/* **************************
+   RESET BUTTONS
+************************** */
+
+const resetShotsButton =
+    document.getElementById("reset-shots-button");
+
+const resetHighscoreButton =
+    document.getElementById("reset-highscore-button");
+
+
+/* **************************
+   SCORE VALUES
+************************** */
 
 let score = 0;
+
+let highscore =
+    Number(localStorage.getItem("highscore")) || 0;
+
+let shotsTaken = 0;
+
+let hit1 = 0;
+
+let hit2 = 0;
+
+let hit3 = 0;
+
+let scoreTimeout;
+
+
+/* **************************
+   AIM VALUES
+************************** */
 
 let aimStartTime = 0;
 
@@ -19,10 +68,20 @@ let powerAnimation;
 
 
 /* **************************
+   SHOW SAVED HIGH SCORE
+************************** */
+
+highscoreText.textContent =
+    "High Score: " + highscore;
+
+
+/* **************************
    SHOOTING SETTINGS
 ************************** */
 
-const maxHoldTime = 475;
+const maxHoldTime = 2600;
+
+/* 475 */
 
 
 /* **************************
@@ -35,9 +94,12 @@ const midX = 516;
 
 const maxX = 1032;
 
-/* const minX = 665;
+
+/*
+const minX = 665;
 const midX = 665;
-const maxX = 665; */
+const maxX = 665;
+*/
 
 
 /* **************************
@@ -46,97 +108,108 @@ const maxX = 665; */
 
 
 /* CENTER */
-/* ===================================== */
 
-/* Center X */
 const target1MinX = 515;
+
 const target1MaxX = 517;
 
 
-/* SIDES CIRCLE */
-/* ===================================== */
+/* LEFT CENTER */
 
-/* Left Center X */
 const target2MinX = 504;
+
 const target2MaxX = 514;
 
-/* Right Center X */
+
+/* RIGHT CENTER */
+
 const target3MinX = 518;
+
 const target3MaxX = 528;
 
 
-/* INNER YELLOW CIRCLE */
-/* ===================================== */
+/* LEFT YELLOW INNER */
 
-/* Left Yellow Inner circle X */
 const target4MinX = 492;
+
 const target4MaxX = 503;
 
-/* Right Yellow Inner circle X */
+
+/* RIGHT YELLOW INNER */
+
 const target5MinX = 529;
+
 const target5MaxX = 540;
 
 
-/* OUTER YELLOW CIRCLE */
-/* ===================================== */
+/* LEFT YELLOW OUTER */
 
-/* Left Yellow Outer circle X */
 const target6MinX = 467;
+
 const target6MaxX = 491;
 
-/* Right Yellow Outer circle X */
+
+/* RIGHT YELLOW OUTER */
+
 const target7MinX = 539;
+
 const target7MaxX = 565;
 
 
-/* INNER RED CIRCLE */
-/* ===================================== */
+/* LEFT RED INNER */
 
-/* Left Red Inner circle */
 const target8MinX = 441;
+
 const target8MaxX = 466;
 
-/* Right Red Inner circle X */
+
+/* RIGHT RED INNER */
+
 const target9MinX = 566;
+
 const target9MaxX = 589;
 
 
-/* OUTER RED CIRCLE */
-/* ===================================== */
+/* LEFT RED OUTER */
 
-/* Left Red Outer circle X */
 const target10MinX = 417;
+
 const target10MaxX = 438;
 
-/* Right Red Outer circle X */
+
+/* RIGHT RED OUTER */
+
 const target11MinX = 589;
+
 const target11MaxX = 614;
 
 
-/* INNER BLUE CIRCLE */
-/* ===================================== */
+/* LEFT BLUE INNER */
 
-/* Left Blue Inner circle X */
 const target12MinX = 392;
+
 const target12MaxX = 416;
 
-/* Right Blue Inner circle */
+
+/* RIGHT BLUE INNER */
+
 const target13MinX = 615;
+
 const target13MaxX = 639;
 
 
-/* OUTER BLUE CIRCLE */
-/* ===================================== */
+/* LEFT BLUE OUTER */
 
-/* Left Blue Outer circle */
 const target14MinX = 367;
+
 const target14MaxX = 391;
 
-/* Right Blue Outer circle */
-const target15MinX = 640;
-const target15MaxX = 665;
 
-/* ===================================== */
+/* RIGHT BLUE OUTER */
+
+const target15MinX = 640;
+
+const target15MaxX = 665;
 
 
 /* **************************
@@ -183,7 +256,75 @@ function updatePowerMeter()
 
 
     powerAnimation =
-        requestAnimationFrame(updatePowerMeter);
+        requestAnimationFrame(
+            updatePowerMeter
+        );
+}
+
+
+/* **************************
+   RESET SHOTS FUNCTION
+************************** */
+
+function resetShots()
+{
+    clearTimeout(
+        scoreTimeout
+    );
+
+
+    cancelAnimationFrame(
+        powerAnimation
+    );
+
+
+    score = 0;
+
+    shotsTaken = 0;
+
+
+    hit1 = 0;
+
+    hit2 = 0;
+
+    hit3 = 0;
+
+
+    isCharging = false;
+
+    currentPower = 0;
+
+
+    scoreText.textContent =
+        "Score: 0";
+
+
+    hit1Text.textContent =
+        "Hit 1: 0";
+
+    hit2Text.textContent =
+        "Hit 2: 0";
+
+    hit3Text.textContent =
+        "Hit 3: 0";
+
+
+    powerFill.style.width =
+        "0%";
+
+
+    shootButton.textContent =
+        "Hold to Aim";
+
+
+    arrow.classList.remove(
+        "aiming"
+    );
+
+
+    arrow.classList.remove(
+        "shooting"
+    );
 }
 
 
@@ -195,6 +336,49 @@ shootButton.addEventListener(
     "pointerdown",
     function ()
     {
+        /* **************************
+           START NEW ROUND
+           AFTER 3 SHOTS
+        ************************** */
+
+        if (shotsTaken >= 3)
+        {
+            clearTimeout(
+                scoreTimeout
+            );
+
+
+            score = 0;
+
+            shotsTaken = 0;
+
+
+            hit1 = 0;
+
+            hit2 = 0;
+
+            hit3 = 0;
+
+
+            scoreText.textContent =
+                "Score: 0";
+
+
+            hit1Text.textContent =
+                "Hit 1: 0";
+
+            hit2Text.textContent =
+                "Hit 2: 0";
+
+            hit3Text.textContent =
+                "Hit 3: 0";
+        }
+
+
+        /* **************************
+           START AIMING
+        ************************** */
+
         aimStartTime =
             performance.now();
 
@@ -238,6 +422,12 @@ shootButton.addEventListener(
     "pointerup",
     function ()
     {
+        if (!isCharging)
+        {
+            return;
+        }
+
+
         isCharging = false;
 
 
@@ -297,7 +487,8 @@ shootButton.addEventListener(
         let points = 0;
 
 
-        /* Center Score */
+        /* Center */
+
         if (
             shootX >= target1MinX &&
             shootX <= target1MaxX
@@ -306,7 +497,9 @@ shootButton.addEventListener(
             points = 100;
         }
 
-        /* Left Center Score */
+
+        /* Left Center */
+
         else if (
             shootX >= target2MinX &&
             shootX <= target2MaxX
@@ -315,7 +508,9 @@ shootButton.addEventListener(
             points = 50;
         }
 
-        /* Right Center Score */
+
+        /* Right Center */
+
         else if (
             shootX >= target3MinX &&
             shootX <= target3MaxX
@@ -324,7 +519,9 @@ shootButton.addEventListener(
             points = 50;
         }
 
-        /* Left Yellow Inner circle */
+
+        /* Left Yellow Inner */
+
         else if (
             shootX >= target4MinX &&
             shootX <= target4MaxX
@@ -333,7 +530,9 @@ shootButton.addEventListener(
             points = 25;
         }
 
-        /* Right Yellow Inner circle */
+
+        /* Right Yellow Inner */
+
         else if (
             shootX >= target5MinX &&
             shootX <= target5MaxX
@@ -342,7 +541,9 @@ shootButton.addEventListener(
             points = 25;
         }
 
-        /* Left Yellow Outer circle */
+
+        /* Left Yellow Outer */
+
         else if (
             shootX >= target6MinX &&
             shootX <= target6MaxX
@@ -351,7 +552,9 @@ shootButton.addEventListener(
             points = 20;
         }
 
-        /* Right  Yellow Outer circle */
+
+        /* Right Yellow Outer */
+
         else if (
             shootX >= target7MinX &&
             shootX <= target7MaxX
@@ -360,7 +563,9 @@ shootButton.addEventListener(
             points = 20;
         }
 
-        /* Left Red Inner circle */
+
+        /* Left Red Inner */
+
         else if (
             shootX >= target8MinX &&
             shootX <= target8MaxX
@@ -369,7 +574,9 @@ shootButton.addEventListener(
             points = 15;
         }
 
-        /* Right Red Inner circle */
+
+        /* Right Red Inner */
+
         else if (
             shootX >= target9MinX &&
             shootX <= target9MaxX
@@ -378,7 +585,9 @@ shootButton.addEventListener(
             points = 15;
         }
 
-        /* Left Red Outer circle */
+
+        /* Left Red Outer */
+
         else if (
             shootX >= target10MinX &&
             shootX <= target10MaxX
@@ -387,7 +596,9 @@ shootButton.addEventListener(
             points = 10;
         }
 
-        /* Right Red Outer circle */
+
+        /* Right Red Outer */
+
         else if (
             shootX >= target11MinX &&
             shootX <= target11MaxX
@@ -396,7 +607,9 @@ shootButton.addEventListener(
             points = 10;
         }
 
-        /* Left Blue Inner circle */
+
+        /* Left Blue Inner */
+
         else if (
             shootX >= target12MinX &&
             shootX <= target12MaxX
@@ -405,7 +618,9 @@ shootButton.addEventListener(
             points = 5;
         }
 
-        /* Right Blue Inner circle */
+
+        /* Right Blue Inner */
+
         else if (
             shootX >= target13MinX &&
             shootX <= target13MaxX
@@ -414,7 +629,9 @@ shootButton.addEventListener(
             points = 5;
         }
 
-        /* Left Blue Outer circle */
+
+        /* Left Blue Outer */
+
         else if (
             shootX >= target14MinX &&
             shootX <= target14MaxX
@@ -423,7 +640,9 @@ shootButton.addEventListener(
             points = 1;
         }
 
-        /* Right Blue Outer circle */
+
+        /* Right Blue Outer */
+
         else if (
             shootX >= target15MinX &&
             shootX <= target15MaxX
@@ -432,7 +651,12 @@ shootButton.addEventListener(
             points = 1;
         }
 
-        /* Miss */
+
+        /* **************************
+           MISS
+           MISS COUNTS AS A SHOT
+        ************************** */
+
         else
         {
             points = 0;
@@ -440,17 +664,85 @@ shootButton.addEventListener(
 
 
         /* **************************
-           SHOW SCORE
+           SAVE HIT
         ************************** */
 
-        setTimeout(() => {
+        if (shotsTaken === 0)
+        {
+            hit1 =
+                points;
 
-            score = points;
 
-            scoreText.textContent =
-                "Score: " + score;
+            hit1Text.textContent =
+                "Hit 1: " + hit1;
+        }
 
-        }, 500);
+
+        else if (shotsTaken === 1)
+        {
+            hit2 =
+                points;
+
+
+            hit2Text.textContent =
+                "Hit 2: " + hit2;
+        }
+
+
+        else if (shotsTaken === 2)
+        {
+            hit3 =
+                points;
+
+
+            hit3Text.textContent =
+                "Hit 3: " + hit3;
+        }
+
+
+        /* **************************
+           COUNT SHOT
+        ************************** */
+
+        shotsTaken =
+            shotsTaken + 1;
+
+
+        /* **************************
+           CALCULATE SCORE
+           AFTER 3 SHOTS
+        ************************** */
+
+        if (shotsTaken === 3)
+        {
+            score =
+                hit1 *
+                hit2 *
+                hit3 /
+                10;
+
+
+            /* **************************
+               CHECK HIGH SCORE
+            ************************** */
+
+            if (score > highscore)
+            {
+                highscore =
+                    score;
+
+
+                localStorage.setItem(
+                    "highscore",
+                    highscore
+                );
+
+
+                highscoreText.textContent =
+                    "High Score: " +
+                    highscore;
+            }
+        }
 
 
         /* **************************
@@ -478,6 +770,27 @@ shootButton.addEventListener(
 
 
         /* **************************
+           DELAY FINAL SCORE
+        ************************** */
+
+        clearTimeout(
+            scoreTimeout
+        );
+
+
+        scoreTimeout =
+            setTimeout(() =>
+            {
+                if (shotsTaken === 3)
+                {
+                    scoreText.textContent =
+                        "Score: " + score;
+                }
+
+            }, 500);
+
+
+        /* **************************
            DEBUG
         ************************** */
 
@@ -497,5 +810,76 @@ shootButton.addEventListener(
             "Points:",
             points
         );
+
+
+        console.log(
+            "Hit 1: ",
+            hit1
+        );
+
+
+        console.log(
+            "Hit 2: ",
+            hit2 +
+        );
+
+
+        console.log(
+            "Hit 3: ",
+            hit3
+        );
+
+
+        console.log(
+            "Shots:",
+            shotsTaken
+        );
+
+
+        console.log(
+            "Score:",
+            score
+        );
+
+
+        console.log(
+            "High Score:",
+            highscore
+        );
+    }
+);
+
+
+/* **************************
+   RESET SHOTS BUTTON
+************************** */
+
+resetShotsButton.addEventListener(
+    "click",
+    function ()
+    {
+        resetShots();
+    }
+);
+
+
+/* **************************
+   RESET HIGH SCORE
+************************** */
+
+resetHighscoreButton.addEventListener(
+    "click",
+    function ()
+    {
+        highscore = 0;
+
+
+        localStorage.removeItem(
+            "highscore"
+        );
+
+
+        highscoreText.textContent =
+            "High Score: 0";
     }
 );

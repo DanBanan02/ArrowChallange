@@ -3,6 +3,7 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,16 +11,21 @@
     <title>Archery Challenge</title>
 
     <link rel="stylesheet" href="style.css">
+
 </head>
 
 <body>
 
     <header>
+
         <h1>Archery Challenge</h1>
 
         <nav>
+
             <a href="#target">Go to Target</a>
+
         </nav>
+
     </header>
 
 
@@ -35,23 +41,81 @@
             <div class="target-area">
 
                 <div class="arrow">
+
                     <div class="arrow-head"></div>
+
                 </div>
 
-                <img src="./Images/target.png" alt="Archery target">
+                <img
+                    src="./Images/target.png"
+                    alt="Archery target"
+                >
+
+            </div>
+
+
+            <div id="Hit_Total">
+
+                <p id="hit1">
+                    Hit 1: 0
+                </p>
+
+                <p id="hit2">
+                    Hit 2: 0
+                </p>
+
+                <p id="hit3">
+                    Hit 3: 0
+                </p>
 
             </div>
 
 
             <div class="power-meter">
+
                 <div class="power-fill"></div>
+
             </div>
 
-            <button id="shoot-button" type="button">
+            <button
+                id="shoot-button"
+                type="button"
+            >
                 Hold to Aim
             </button>
+            <br>
+            <br>
+            <button
+                id="reset-shots-button"
+                type="button">
+                Reset Shots
+            </button>
 
-            <p id="score">Score: 0</p>
+
+            <p id="score">
+
+                Score: 0
+
+            </p>
+
+
+            <p id="highscore">
+
+                High Score: 0
+
+            </p>
+
+
+            <!-- **************************
+                 RESET BUTTONS HIGHSCORE
+            *************************** -->
+
+            <button
+                id="reset-highscore-button"
+                type="button"
+            >
+                Reset High Score
+            </button>
 
         </section>
 
@@ -59,7 +123,13 @@
 
 
     <footer>
-        <p>Tip: Hold the button down to increase the power.</p>
+
+        <p>
+
+            Tip: Hold the button down to increase the power.
+
+        </p>
+
     </footer>
 
 

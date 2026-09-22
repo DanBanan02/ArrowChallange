@@ -4,11 +4,36 @@
 }
 
 
+.Header_Title 
+{
+  font-family: "Black Ops One", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  
+  margin-top: -10px;
+  margin-bottom: -20px;
+  font-size: 75px;
+}
+
 body
 {
     font-family: Arial, sans-serif;
     text-align: center;
     background-color: beige;
+}
+
+#Reset_TargetMove
+{
+    display: flex;
+    justify-content: center;
+/*     margin-top: -30px;
+    margin-bottom: -30px;
+    padding-top: -30px;
+    padding-bottom: -30px; */
+
+    height: 30px;
+    
 }
 
 .target-area
@@ -22,28 +47,30 @@ body
 #target img
 {
     width: 300px;
-
     transition: transform 0.3s ease;
-
-    z-index: -1;
+    position: relative;
+    z-index: 1;
 }
 
 #target img:hover
 {
     transform: scale(1.1);
-
-    z-index: -1;
+    z-index: 1;
+    box-shadow: 0 7.5px 20px rgba(0, 0, 0, 0.35);
+    border-radius: 50%;
 }
 
 button
 {
-    padding: 12px 20px;
+    padding: 8px 20px;
 
-    background-color: darkgreen;
+    background-color: #c20a0a;
     color: white;
 
-    border: none;
-    border-radius: 8px;
+    border: 2.5px;
+    border-radius: 20px;
+    border-color: #000;
+    border-style: solid;
 
     transition: 0.3s ease;
 
@@ -52,9 +79,22 @@ button
 
 button:hover
 {
-    background-color: green;
+    background-color: hsl(0, 90%, 51%);
 
     transform: scale(1.1);
+}
+
+button#shoot-button
+{
+    background-color: hsl(240, 88%, 35%);
+}
+
+button#shoot-button:hover
+{
+    background-color: #1e1ed3;
+    transform: scale(1.1);
+
+    
 }
 
 .arrow 
@@ -136,7 +176,7 @@ button:hover
 
 .power-meter 
 {
-    width: 300px;
+    width: 345px;
     height: 20px;
 
     margin: 5px auto;
@@ -171,6 +211,7 @@ button:hover
         red 85%,
         red 100%
     );
+
 }
 .power-fill 
 {
@@ -201,6 +242,8 @@ p#hit1
 
     font-weight: bold;
     padding: 2px;
+    padding-right: 10px;
+    padding-left: 10px;
 }
 
 p#hit2
@@ -213,6 +256,8 @@ p#hit2
 
     font-weight: bold;
     padding: 2px;
+    padding-right: 10px;
+    padding-left: 10px;
 }
 
 p#hit3
@@ -225,10 +270,138 @@ p#hit3
 
     font-weight: bold;
     padding: 2px;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+.Hit_Target
+{
+    margin-right: 3px;
+    z-index: 5;
+}
+
+p#score
+{
+    font-weight: bold;
+}
+
+p#highscore
+{
+    font-weight: bold;
 }
 
 
+/* **************************
+   MOVING TARGET SWITCH
+************************** */
 
+.moving-target-control
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin: 15px;
+}
+
+
+/* **************************
+   SWITCH
+************************** */
+
+.switch
+{
+    position: relative;
+    display: inline-block;
+    width: 45px;
+    height: 14px;
+}
+
+
+/* **************************
+   HIDE CHECKBOX
+************************** */
+
+.switch input
+{
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+
+/* **************************
+   SLIDER BACKGROUND
+************************** */
+
+.slider
+{
+    position: absolute;
+    cursor: pointer;
+
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    background-color: hwb(0 4% 40%);
+
+    border-radius: 14px;
+
+    transition: 0.3s;
+}
+
+
+/* **************************
+   SLIDER CIRCLE
+************************** */
+
+.slider::before
+{
+    content: "";
+
+    position: absolute;
+
+    width: 12px;
+    height: 12px;
+
+    left: 1.5px;
+    bottom: 1px;
+
+    background-color: white;
+
+    border-radius: 50%;
+
+    transition: 0.3s;
+
+}
+
+
+/* **************************
+   SWITCH ON
+************************** */
+
+.switch input:checked + .slider
+{
+    background-color: green;
+}
+
+
+/* **************************
+   MOVE CIRCLE
+************************** */
+
+.switch input:checked + .slider::before
+{
+    transform: translateX(30px);
+}
+
+#moving-target-status
+{
+    display: inline-block;
+    width: 20px;
+    text-align: left;
+}
 
 
 

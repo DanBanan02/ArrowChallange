@@ -4,11 +4,21 @@
 
 <head>
 
+        <!-- **************************
+            FONT TYPE - Black Ops One
+        *************************** -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Big+Shoulders:opsz@10..72&family=Black+Ops+One&family=Lexend+Deca&family=Rubik+Dirt&display=swap" rel="stylesheet">
+
+<!-- ======================================================================== -->
+
+
+
     <meta charset="UTF-8">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Archery Challenge</title>
 
     <link rel="stylesheet" href="style.css">
 
@@ -18,11 +28,11 @@
 
     <header>
 
-        <h1>Archery Challenge</h1>
+        <h1 class="Header_Title" >Archery Challenge</h1>
 
         <nav>
 
-            <a href="#target">Go to Target</a>
+            <a id="Target_RS" href="#target">Reset Screen</a>
 
         </nav>
 
@@ -32,10 +42,8 @@
     <main>
 
         <section id="target">
-
-            <h2>Aim for the Bullseye</h2>
-
-            <p>Try to hit the center of the target!</p>
+            
+            <p id="ToolTip">Try to hit the center of the target!</p>
 
 
             <div class="target-area">
@@ -46,90 +54,74 @@
 
                 </div>
 
-                <img
-                    src="./Images/target.png"
-                    alt="Archery target"
-                >
-
+                <img src="./Images/target.png" alt="Archery target">
+                      
             </div>
 
 
             <div id="Hit_Total">
-
-                <p id="hit1">
-                    Hit 1: 0
-                </p>
-
-                <p id="hit2">
-                    Hit 2: 0
-                </p>
-
-                <p id="hit3">
-                    Hit 3: 0
-                </p>
-
+                <p class="Hit_Target" id="hit1">Hit 1: 0</p>                                 
+                <p class="Hit_Target" id="hit2">Hit 2: 0</p>                                   
+                <p class="Hit_Target" id="hit3">Hit 3: 0</p>                                   
             </div>
 
 
             <div class="power-meter">
-
                 <div class="power-fill"></div>
-
             </div>
 
-            <button
-                id="shoot-button"
-                type="button"
-            >
-                Hold to Aim
-            </button>
-            <br>
-            <br>
-            <button
-                id="reset-shots-button"
-                type="button">
-                Reset Shots
-            </button>
+            <button id="shoot-button" type="button">Hold to Aim</button>
+            
+                                                                
+            <br><br>
+            <section id="Reset_TargetMove">
+
+                <!-- **************************
+                    MOVING TARGET MODE
+                *************************** -->
+
+                <div class="moving-target-control">
+                    <span>
+                        Moving Target
+                    </span>
+                    <label class="switch">
+                        <input id="moving-target-toggle" type="checkbox">
+                        <span class="slider"></span>
+                    </label>
+
+                    <span id="moving-target-status">
+                        OFF
+                    </span>
+                </div>
+
+                <button
+                    id="reset-shots-button"
+                    type="button">
+                    Reset Shots
+                </button>
+
+            </section>
 
 
-            <p id="score">
+            <!-- Target Score -->
 
-                Score: 0
-
-            </p>
-
-
-            <p id="highscore">
-
-                High Score: 0
-
-            </p>
+            <p id="score">Score: 0</p>
+              
+            <p id="highscore">High Score: 0</p>
 
 
             <!-- **************************
                  RESET BUTTONS HIGHSCORE
             *************************** -->
 
-            <button
-                id="reset-highscore-button"
-                type="button"
-            >
-                Reset High Score
-            </button>
-
+            <button id="reset-highscore-button" type="button">Reset High Score</button>                            
         </section>
 
     </main>
 
 
     <footer>
-
-        <p>
-
-            Tip: Hold the button down to increase the power.
-
-        </p>
-
+        <p>Tip: "Hold the button down to increase the power."</p>
     </footer>
 
 

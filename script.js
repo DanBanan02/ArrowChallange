@@ -772,17 +772,49 @@ function scoreTargetImage()
         shotsTaken + 1;
 
 
+
     /* **************************
-       TOTAL SCORE AFTER 3X SHOOTS
+    TOTAL SCORE AFTER 3X SHOOTS
     ************************** */
 
     if (shotsTaken === 3)
     {
-        score =
-            hit1 *
-            hit2 *
-            hit3 /
-            10;
+        /* **************************
+        ONLY COUNT ACTUAL HITS
+        ************************** */
+
+        const successfulHits =
+            [
+                hit1,
+                hit2,
+                hit3
+            ].filter(
+                hit => hit > 0
+            );
+
+
+        /* **************************
+        IF ALL 3 ARE MISSES
+        ************************** */
+
+        if (successfulHits.length === 0)
+        {
+            score = 0;
+        }
+
+
+        /* **************************
+        MULTIPLY ONLY THE HITS
+        ************************** */
+
+        else
+        {
+            score =
+                successfulHits.reduce(
+                    (total, hit) =>
+                        total * hit
+                ) / 10;
+        }
 
 
         /* **************************

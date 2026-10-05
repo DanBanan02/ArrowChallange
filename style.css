@@ -62,6 +62,8 @@ body
 
 button
 {
+    user-select:none;
+    
     padding: 8px 20px;
 
     background-color: #c20a0a;
